@@ -11,20 +11,15 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Change to script directory
 cd "$SCRIPT_DIR" || exit 1
 
-# Load environment variables from .env.backup or .env
-if [ -f ".env.backup" ]; then
-    ENV_FILE=".env.backup"
-    echo "Loading configuration from .env.backup"
-elif [ -f ".env" ]; then
-    ENV_FILE=".env"
-    echo "Loading configuration from .env"
-else
-    echo "Error: Neither .env.backup nor .env file found in $SCRIPT_DIR"
+# Load environment variables from .env
+if [ ! -f ".env" ]; then
+    echo "Error: .env file not found in $SCRIPT_DIR"
+    echo "Please copy .env.example to .env and configure it"
     exit 1
 fi
 
 set -a  # Automatically export all variables
-source "$ENV_FILE"
+source ".env"
 set +a  # Stop auto-exporting
 
 # Run the backup script

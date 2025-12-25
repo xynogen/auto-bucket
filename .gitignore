@@ -1,9 +1,8 @@
 # Environment files
-.env.backup
 .env
-.env*
-!.env.backup.example
-!tests/.env.backup.test
+.env.*
+!.env.example
+!tests/.env.test
 
 # Backup files
 *.sql

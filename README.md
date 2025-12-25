@@ -19,8 +19,8 @@ sudo apt-get install postgresql-client awscli
 Get your R2 API tokens from: https://dash.cloudflare.com/?to=/:account/r2/overview/api-tokens
 
 ```bash
-cp .env.backup.example .env.backup
-nano .env.backup
+cp .env.example .env
+nano .env
 ```
 
 Update these values:
@@ -129,8 +129,8 @@ tail -f /var/log/database-backup.log
 
 ```bash
 # Protect credentials
-chmod 600 .env.backup
+chmod 600 .env
 
-# Add to .gitignore
-echo ".env.backup" >> .gitignore
+# Add to .gitignore (already included)
+echo ".env" >> .gitignore
 ```

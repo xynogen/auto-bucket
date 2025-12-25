@@ -5,7 +5,7 @@ This directory contains all test-related files for the auto_bucket backup system
 ## Files
 
 - **[docker-compose.yml](file:///d:/Pekerjaan/auto_bucket/tests/docker-compose.yml)** - Docker Compose with MySQL + MinIO
-- **[.env.backup.test](file:///d:/Pekerjaan/auto_bucket/tests/.env.backup.test)** - Test configuration with MinIO credentials  
+- **[.env.test](file:///d:/Pekerjaan/auto_bucket/tests/.env.test)** - Test configuration with MinIO credentials  
 - **[init-mysql.sql](file:///d:/Pekerjaan/auto_bucket/tests/init-mysql.sql)** - MySQL initialization with 3 test databases
 - **[test-docker.sh](file:///d:/Pekerjaan/auto_bucket/tests/test-docker.sh)** - Automated test runner script
 

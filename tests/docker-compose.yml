@@ -50,7 +50,7 @@ services:
     volumes:
       - ../backup.sh:/app/backup.sh
       - ../run-backup.sh:/app/run-backup.sh
-      - ./.env.backup.test:/app/.env.backup
+      - ./.env.test:/app/.env
       - ../logs:/var/log
     working_dir: /app
     command: >
