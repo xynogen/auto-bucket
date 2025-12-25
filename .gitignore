@@ -2,7 +2,7 @@
 .env.backup
 .env*
 !.env.backup.example
-!.env.backup.test
+!tests/.env.backup.test
 
 # Backup files
 *.sql

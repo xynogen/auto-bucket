@@ -1,6 +1,23 @@
-version: '3.8'
-
 services:
+  # MinIO - S3-compatible storage for testing
+  minio:
+    image: minio/minio:latest
+    container_name: test_minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
   # MySQL test database
   mysql:
     image: mysql:8.0
@@ -26,24 +43,32 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+      minio:
+        condition: service_healthy
     environment:
       DEBIAN_FRONTEND: noninteractive
     volumes:
       - ../backup.sh:/app/backup.sh
       - ../run-backup.sh:/app/run-backup.sh
-      - ../.env.backup:/app/.env.backup
+      - ./.env.backup.test:/app/.env.backup
       - ../logs:/var/log
     working_dir: /app
     command: >
       bash -c "
         apt-get update -qq &&
-        apt-get install -y -qq mysql-client awscli &&
+        apt-get install -y -qq mysql-client awscli curl &&
         echo 'Dependencies installed' &&
         chmod +x /app/backup.sh /app/run-backup.sh &&
-        echo 'Waiting for MySQL to be fully ready...' &&
+        echo 'Waiting for services to be fully ready...' &&
         sleep 10 &&
+        echo 'Creating MinIO bucket...' &&
+        export AWS_ACCESS_KEY_ID=minioadmin &&
+        export AWS_SECRET_ACCESS_KEY=minioadmin123 &&
+        aws --endpoint-url http://minio:9000 s3 mb s3://test-backups --region us-east-1 2>/dev/null || echo 'Bucket already exists' &&
+        echo 'Running backup...' &&
         /app/run-backup.sh
       "
 
 volumes:
+  minio_data:
   mysql_data:
