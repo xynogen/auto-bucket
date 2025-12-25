@@ -19,6 +19,40 @@ RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+# Check if Docker is installed
+if ! command -v docker &> /dev/null; then
+    echo -e "${RED}Error: Docker is not installed${NC}"
+    echo ""
+    echo "Please install Docker first:"
+    echo "  • Windows/Mac: https://www.docker.com/products/docker-desktop"
+    echo "  • Linux: https://docs.docker.com/engine/install/"
+    echo ""
+    exit 1
+fi
+
+# Check if Docker Compose is installed
+if ! command -v docker-compose &> /dev/null; then
+    echo -e "${RED}Error: Docker Compose is not installed${NC}"
+    echo ""
+    echo "Docker Compose usually comes with Docker Desktop."
+    echo "If using Linux, install it separately:"
+    echo "  https://docs.docker.com/compose/install/"
+    echo ""
+    exit 1
+fi
+
+# Check if Docker daemon is running
+if ! docker info &> /dev/null; then
+    echo -e "${RED}Error: Docker daemon is not running${NC}"
+    echo ""
+    echo "Please start Docker Desktop or the Docker daemon"
+    echo ""
+    exit 1
+fi
+
+echo -e "${GREEN}✓ Docker is installed and running${NC}"
+echo ""
+
 # Cleanup function
 cleanup() {
     echo ""
