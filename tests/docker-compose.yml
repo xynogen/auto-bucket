@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  # MySQL test database
+  mysql:
+    image: mysql:8.0
+    container_name: test_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: test_root_password
+      MYSQL_DATABASE: test_db1
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-mysql.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-ptest_root_password"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Backup script container
+  backup:
+    image: ubuntu:22.04
+    container_name: backup_runner
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DEBIAN_FRONTEND: noninteractive
+    volumes:
+      - ../backup.sh:/app/backup.sh
+      - ../run-backup.sh:/app/run-backup.sh
+      - ../.env.backup:/app/.env.backup
+      - ../logs:/var/log
+    working_dir: /app
+    command: >
+      bash -c "
+        apt-get update -qq &&
+        apt-get install -y -qq mysql-client awscli &&
+        echo 'Dependencies installed' &&
+        chmod +x /app/backup.sh /app/run-backup.sh &&
+        echo 'Waiting for MySQL to be fully ready...' &&
+        sleep 10 &&
+        /app/run-backup.sh
+      "
+
+volumes:
+  mysql_data:

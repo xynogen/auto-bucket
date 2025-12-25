@@ -13,7 +13,9 @@ cd "$SCRIPT_DIR" || exit 1
 
 # Load environment variables from .env.backup
 if [ -f ".env.backup" ]; then
+    set -a  # Automatically export all variables
     source .env.backup
+    set +a  # Stop auto-exporting
 else
     echo "Error: .env.backup file not found in $SCRIPT_DIR"
     exit 1

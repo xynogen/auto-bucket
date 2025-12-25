@@ -32,6 +32,15 @@ Update these values:
 
 ### 3. Test the Backup
 
+**Option A: Using Docker (Recommended for testing)**
+```bash
+cd tests
+chmod +x test-docker.sh
+./test-docker.sh
+```
+See [tests/README.md](file:///d:/Pekerjaan/auto_bucket/tests/README.md) for detailed testing instructions.
+
+**Option B: Direct test**
 ```bash
 chmod +x backup.sh run-backup.sh
 ./run-backup.sh

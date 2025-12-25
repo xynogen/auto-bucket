@@ -1,0 +1,30 @@
+# Environment files
+.env.backup
+.env*
+!.env.backup.example
+!.env.backup.test
+
+# Backup files
+*.sql
+!init-mysql.sql
+*.sql.gz
+backup_*
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+/tmp/
+temp/
