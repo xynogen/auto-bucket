@@ -8,7 +8,6 @@ This directory contains all test-related files for the auto_bucket backup system
 - **[.env.backup.test](file:///d:/Pekerjaan/auto_bucket/tests/.env.backup.test)** - Test configuration with MinIO credentials  
 - **[init-mysql.sql](file:///d:/Pekerjaan/auto_bucket/tests/init-mysql.sql)** - MySQL initialization with 3 test databases
 - **[test-docker.sh](file:///d:/Pekerjaan/auto_bucket/tests/test-docker.sh)** - Automated test runner script
-- **[TESTING.md](file:///d:/Pekerjaan/auto_bucket/tests/TESTING.md)** - Detailed testing instructions
 
 ## Quick Start
 
